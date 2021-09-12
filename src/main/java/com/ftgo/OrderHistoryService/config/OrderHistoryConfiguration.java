@@ -1,9 +1,12 @@
 package com.ftgo.OrderHistoryService.config;
 
 import com.ftgo.OrderHistoryService.OrderHistoryService;
+import com.ftgo.OrderHistoryService.event.ViewEventConsumer;
 import io.eventuate.tram.consumer.common.DuplicateMessageDetector;
 import io.eventuate.tram.consumer.common.NoopDuplicateMessageDetector;
 import io.eventuate.tram.events.publisher.DomainEventPublisher;
+import io.eventuate.tram.events.subscriber.DomainEventDispatcher;
+import io.eventuate.tram.events.subscriber.DomainEventDispatcherFactory;
 import io.eventuate.tram.sagas.orchestration.SagaInstanceFactory;
 import io.eventuate.tram.sagas.spring.orchestration.SagaOrchestratorConfiguration;
 import io.eventuate.tram.sagas.spring.participant.SagaParticipantConfiguration;
@@ -35,5 +38,18 @@ public class OrderHistoryConfiguration {
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();
+    }
+
+    @Bean
+    public ViewEventConsumer orderHistoryEventHandlers(OrderHistoryService orderHistoryService) {
+        return new ViewEventConsumer(orderHistoryService);
+    }
+
+    @Bean
+    public DomainEventDispatcher orderHistoryDomainEventDispatcher(
+            ViewEventConsumer viewEventConsumer,
+            DomainEventDispatcherFactory domainEventDispatcherFactory) {
+        return domainEventDispatcherFactory.make("viewDomainEventDispatcher",
+                viewEventConsumer.orderEventHandlers());
     }
 }
