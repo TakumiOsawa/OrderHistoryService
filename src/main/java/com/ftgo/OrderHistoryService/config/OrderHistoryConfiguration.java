@@ -12,9 +12,11 @@ import io.eventuate.tram.spring.events.publisher.TramEventsPublisherConfiguratio
 import io.eventuate.tram.spring.events.subscriber.TramEventSubscriberConfiguration;
 import io.eventuate.tram.spring.messaging.producer.jdbc.TramMessageProducerJdbcConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 
+@Configuration
 @Import({TramEventsPublisherConfiguration.class,
         TramMessageProducerJdbcConfiguration.class,
         EventuateTramKafkaMessageConsumerConfiguration.class,
