@@ -17,6 +17,7 @@ public class ViewEventConsumer {
     }
 
     public DomainEventHandlers orderEventHandlers() {
+        logger.info("Preparing event handlers.");
         return DomainEventHandlersBuilder
                 .forAggregateType("Order")
                 .onEvent(OrderCreated.class, this::handleOrderCreated)
