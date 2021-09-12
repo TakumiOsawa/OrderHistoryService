@@ -19,13 +19,11 @@ public class OrderHistoryController {
     @GetMapping("/hcheck")
     @ResponseStatus(HttpStatus.OK)
     public HealthCheckResponse healthCheck() {
-        logger.info("Health Checked!!");
         return new HealthCheckResponse();
     }
 
     @GetMapping("/view/{consumerId}")
     public GetOrdersResponse getViewItems(@PathVariable long consumerId) {
-        logger.info("Getting View Item!!");
         return new GetOrdersResponse(orderHistoryService.getViewByComposition(consumerId));
     }
 }

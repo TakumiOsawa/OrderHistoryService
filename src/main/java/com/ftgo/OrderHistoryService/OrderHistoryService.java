@@ -16,8 +16,11 @@ public class OrderHistoryService {
     }
 
     public List<ViewItem> getViewByComposition(long consumerId) {
+        /*
         Map<String, String> envProperties = System.getenv();
         String loadBalancerUrl = envProperties.get("LOAD_BALANCER_URL");
+         */
+        String loadBalancerUrl = "http://ma-ftgo-1872925899.ap-northeast-1.elb.amazonaws.com:8008";
 
         return Objects.requireNonNull(
                 restTemplate.getForObject(loadBalancerUrl + "/orders/view/{consumerId}",
