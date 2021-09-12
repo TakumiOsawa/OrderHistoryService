@@ -10,6 +10,4 @@ import java.util.List;
 @AllArgsConstructor
 public class GetOrdersResponse {
     private List<ViewItem> items;
-
-    public GetOrdersResponse () {}
 }
