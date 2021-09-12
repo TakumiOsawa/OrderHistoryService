@@ -31,4 +31,9 @@ public class OrderHistoryConfiguration {
     public DuplicateMessageDetector duplicateMessageDetector() {
         return new NoopDuplicateMessageDetector();
     }
+
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
 }
