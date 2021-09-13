@@ -31,4 +31,9 @@ public class OrderHistoryController {
         logger.info("Get Information.");
         return new GetOrdersResponse(result);
     }
+
+    @GetMapping("/test")
+    public void testProduce() {
+        orderHistoryService.testProduce();
+    }
 }

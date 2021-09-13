@@ -2,6 +2,9 @@ package com.ftgo.OrderHistoryService;
 
 import com.ftgo.OrderHistoryService.domain.view.entity.ViewItem;
 import com.ftgo.OrderHistoryService.web.query.GetOrdersResponse;
+import io.eventuate.tram.events.publisher.DomainEventPublisher;
+import io.eventuate.tram.messaging.producer.MessageBuilder;
+import io.eventuate.tram.messaging.producer.MessageProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,9 +13,15 @@ import java.util.stream.Collectors;
 
 public class OrderHistoryService {
     private final RestTemplate restTemplate;
+    private final DomainEventPublisher eventPublisher;
+    private final MessageProducer messageProducer;
 
-    public OrderHistoryService(@Autowired RestTemplate restTemplate) {
+    public OrderHistoryService(@Autowired RestTemplate restTemplate,
+                               @Autowired DomainEventPublisher eventPublisher,
+                               @Autowired MessageProducer messageProducer) {
         this.restTemplate = restTemplate;
+        this.eventPublisher = eventPublisher;
+        this.messageProducer = messageProducer;
     }
 
     public List<ViewItem> getViewByComposition(long consumerId) {
@@ -34,5 +43,10 @@ public class OrderHistoryService {
                         it.getRestaurantId(),
                         it.getOrderLineItems().getValue()))
                 .collect(Collectors.toList());
+    }
+
+    public void testProduce() {
+        messageProducer.send("Order", MessageBuilder.withPayload("Test").build());
+        //eventPublisher.publish("Order", 0, );
     }
 }
