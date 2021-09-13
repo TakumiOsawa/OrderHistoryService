@@ -7,6 +7,7 @@ import io.eventuate.tram.consumer.common.NoopDuplicateMessageDetector;
 import io.eventuate.tram.events.publisher.DomainEventPublisher;
 import io.eventuate.tram.events.subscriber.DomainEventDispatcher;
 import io.eventuate.tram.events.subscriber.DomainEventDispatcherFactory;
+import io.eventuate.tram.messaging.producer.MessageProducer;
 import io.eventuate.tram.sagas.orchestration.SagaInstanceFactory;
 import io.eventuate.tram.sagas.spring.orchestration.SagaOrchestratorConfiguration;
 import io.eventuate.tram.sagas.spring.participant.SagaParticipantConfiguration;
@@ -26,8 +27,10 @@ import org.springframework.web.client.RestTemplate;
         TramEventSubscriberConfiguration.class})
 public class OrderHistoryConfiguration {
     @Bean
-    public OrderHistoryService orderHistoryService(RestTemplate restTemplate) {
-        return new OrderHistoryService(restTemplate);
+    public OrderHistoryService orderHistoryService(RestTemplate restTemplate,
+                                                   DomainEventPublisher eventPublisher,
+                                                   MessageProducer messageProducer) {
+        return new OrderHistoryService(restTemplate, eventPublisher, messageProducer);
     }
 
     @Bean
